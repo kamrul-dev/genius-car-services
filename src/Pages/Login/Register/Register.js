@@ -27,7 +27,7 @@ const Register = () => {
         const name = event.target.name.value;
         const email = event.target.email.value;
         const password = event.target.email.value;
-        console.log({name, email, password});
+        console.log({ name, email, password });
         createUserWithEmailAndPassword(email, password)
     }
     return (
@@ -37,9 +37,11 @@ const Register = () => {
                 <input type="text" name="name" id="" placeholder='Your Name' />
                 <input type="email" name="email" id="" placeholder='Your Email' required />
                 <input type="password" name="password" id="" placeholder='Your Password' required />
-                <input className='btn btn-primary' type="submit" value="Register" />
+                <input type="checkbox" name="terms" id="terms" />
+                <label htmlFor="terms">Accept Terms and conditoins</label>
+                <input className='btn btn-primary w-50 mx-auto mt-2' type="submit" value="Register" />
             </form>
-            <p>Already have an account ? <Link to='/login' className='text-danger pe-atuo text-decoration-none' onClick={navigateLogin}>Please Login</Link> </p>
+            <p>Already have an account ? <Link to='/login' className='text-primary pe-atuo text-decoration-none' onClick={navigateLogin}>Please Login</Link> </p>
             <SocialLogin></SocialLogin>
         </div>
     );
