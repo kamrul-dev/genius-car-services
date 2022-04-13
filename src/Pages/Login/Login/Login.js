@@ -20,6 +20,11 @@ const Login = () => {
 
     const from = location.state?.from?.pathname || "/";
 
+    let errorElement;
+    if (error) {
+        errorElement = <div><p className='text-danger'>Error: {error?.message}</p> </div>
+    }
+
     if (user) {
         navigate(from, { replace: true });
     }
@@ -51,6 +56,7 @@ const Login = () => {
                     Login
                 </Button>
             </Form>
+            {errorElement}
             <p>New to Genius Car? <Link to='/register' className='text-danger pe-atuo text-decoration-none' onClick={navigateRegister}>Please Register</Link> </p>
             <SocialLogin></SocialLogin>
         </div>
