@@ -1,37 +1,53 @@
 import React, { useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'react-router-dom';
+import auth from '../../../firebase.init';
 import useServiceDetail from '../../../hooks/useServiceDetail';
 
 const Checkout = () => {
     const { serviceId } = useParams();
     const [service] = useServiceDetail(serviceId);
-    const [user, setUser] = useState({
-        name: 'Kamrul',
-        email: 'kamrul@gmail.com',
-        address: 'Uttara, Dhaka',
-        phone: '0175555555'
-    });
+    const [user] = useAuthState(auth);
 
-    const handleAddressChange = event => {
-        console.log(event.target.value);
-        const {address, ...rest} = user;
-        const newAddress = event.target.value;
-        const newUser = {address: newAddress, ...rest}
-        console.log(newUser);
-        setUser(newUser)
+
+    /*     const [user, setUser] = useState({
+            name: 'Kamrul',
+            email: 'kamrul@gmail.com',
+            address: 'Uttara, Dhaka',
+            phone: '0175555555'
+        });
+    // prcatice how control works following this codes
+        const handleAddressChange = event => {
+            console.log(event.target.value);
+            const {address, ...rest} = user;
+            const newAddress = event.target.value;
+            const newUser = {address: newAddress, ...rest}
+            console.log(newUser);
+            setUser(newUser)
+        } */
+
+
+    const handlePlaceOrder = event => {
+        event.prventDefault();
+        const order = {
+            email: user.email,
+            service: service.name,
+            serviceId: serviceId,
+            address: event.target.address.value
+        }
     }
 
     return (
         <div className='w-50 mx-auto'>
             <h2>Please Order: {service.name}</h2>
-            <form>
-                <input className='w-100 mb-2' type="text" value={user.name} name='name' placeholder='Name' required />
+            <form onSubmit={handlePlaceOrder}>
+                <input className='w-100 mb-2' type="text" value={user.displayName} name='name' placeholder='Name' required readOnly disabled />
                 <br />
-                <input className='w-100 mb-2' type="email" value={user.email} name='email' placeholder='Email' required />
+                <input className='w-100 mb-2' type="email" value={user.email} name='email' placeholder='Email' required readOnly disabled />
                 <br />
                 <input className='w-100 mb-2' type="text" value={service.name} name='service' placeholder='Service Name' required />
                 <br />
-                <input className='w-100 mb-2' onChange={handleAddressChange} type="text" value={user.address} name='address' placeholder='Address' required />
+                <input className='w-100 mb-2' type="text" name='address' placeholder='Address' required />
                 <br />
                 <input className='w-100 mb-2' type="text" value={user.phone} name='phone' placeholder='phone' required />
                 <br />
