@@ -5,7 +5,7 @@ const AddService = () => {
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         console.log(data);
-        const url = `http://localhost:5000/service`;
+        const url = `https://peaceful-plains-28174.herokuapp.com/service`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -13,10 +13,10 @@ const AddService = () => {
             },
             body: JSON.stringify(data)
         })
-        .then(res=> res.json())
-        .then(result => {
-            console.log(result);
-        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+            })
     };
     return (
         <div className='w-50 mx-auto'>
