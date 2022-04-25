@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PageTitle from '../../Shared/PageTitle/PageTitle';
 import axios from 'axios';
+import useToken from '../../../hooks/useToken';
 const Login = () => {
     const [
         signInWithEmailAndPassword,
@@ -19,6 +20,9 @@ const Login = () => {
         error,
     ] = useSignInWithEmailAndPassword(auth);
     const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+
+    const [token, setToken] = useToken(user);
+
 
     const emailRef = useRef('');
     const passwordRef = useRef('');
@@ -36,19 +40,16 @@ const Login = () => {
         return <Loading></Loading>
     }
 
-    if (user) {
-        // navigate(from, { replace: true });
+    if (token) {
+        navigate(from, { replace: true });
     }
 
     const handleSubmit = async event => {
         event.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
-        console.log({ email, password });
+
         await signInWithEmailAndPassword(email, password);
-        const { data } = await axios.post('https://peaceful-plains-28174.herokuapp.com/login', { email });
-        localStorage.setItem('accessToken', data.accessToken);
-        navigate(from, { replace: true });
     }
     const navigateRegister = event => {
         navigate('/register')
